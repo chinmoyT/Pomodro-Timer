@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Home from './components/Home'
+import Navbar from './components/Navbar'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import BreakTimer from './components/BreakTimer'
+import Register from './components/Register'
+import Login from './components/Login'
+import Page from './components/Page'
 
-function App() {
+const App = () => {
+  const [success, setSuccess] = useState(false);
+  const [user, setUser] = useState({})
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar user={user} success={success} setSuccess={setSuccess} />
+      <Routes>
+        {success ?
+          <>
+            < Route path='/home' element={<Home />} />
+            <Route path='/break-time' element={<BreakTimer />} />
+          </> :
+          ""
+        }
+
+        <Route exact path='/' element={<Register setUser={setUser} />} />
+        <Route exact path='/login' element={<Login setSuccess={setSuccess} />} />
+      </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
